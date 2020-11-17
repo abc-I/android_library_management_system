@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lzf.dao.BorrowsDao">
+
+    <resultMap id="result" type="org.lzf.bean.Borrows">
+        <result column="borrows_book_id" property="borrowsBookId"/>
+        <result column="borrows_stu_id" property="borrowsStuId"/>
+        <result column="borrows_book_name" property="borrowsBookName"/>
+        <result column="borrows_time" property="borrowsTime"/>
+        <result column="return_time" property="returnTime"/>
+        <result column="damage" property="damage"/>
+        <association property="student" javaType="org.lzf.bean.Student">
+            <result column="stu_name" property="stuName"/>
+        </association>
+    </resultMap>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="result">
+        select *
+        from borrows
+        where borrows_stu_id = #{stuId}
+          and return_time IS NULL;
+    </select>
+
+    <select id="selectAll" resultMap="result">
+        select b.borrows_book_id,
+               b.borrows_stu_id,
+               b.borrows_book_name,
+               b.borrows_time,
+               b.return_time,
+               b.damage,
+               s.stu_name
+        from borrows b
+                 left join students s on b.borrows_stu_id = s.stu_id
+        where b.return_time IS NULL;
+    </select>
+
+    <select id="selectByName" resultType="org.lzf.bean.Books">
+        select *
+        from books
+        where book_name = #{borrowsBookName};
+    </select>
+
+    <insert id="insert" parameterType="org.lzf.bean.Borrows">
+        insert into borrows(borrows_book_id, borrows_book_name, borrows_stu_id, borrows_time, return_time, damage)
+        values (#{borrowsBookId}, #{borrowsBookName}, #{borrowsStuId}, #{borrowsTime}, #{returnTime}, #{damage});
+    </insert>
+
+    <update id="update" parameterType="org.lzf.bean.Borrows">
+        update borrows
+        <set>
+            <if test="borrows.borrowsBookId != null">
+                borrows_book_id=#{borrows.borrowsBookId},
+            </if>
+            <if test="borrows.borrowsStuId != null">
+                borrows_stu_id=#{borrows.borrowsStuId},
+            </if>
+            <if test="borrows.borrowsBookName != null">
+                borrows_book_name=#{borrows.borrowsBookName},
+            </if>
+            <if test="borrows.borrowsTime != null">
+                borrows_time=#{borrows.borrowsTime},
+            </if>
+            <if test="borrows.returnTime != null">
+                return_time=#{borrows.returnTime},
+            </if>
+            <if test="borrows.damage != null">
+                damage=#{borrows.damage},
+            </if>
+        </set>
+        <where>
+            <foreach collection="condition" item="value" index="key" separator="and">
+                ${key} = #{value}
+            </foreach>
+        </where>
+    </update>
+
+</mapper>

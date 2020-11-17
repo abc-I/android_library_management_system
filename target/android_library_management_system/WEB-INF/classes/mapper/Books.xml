@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lzf.dao.BooksDao">
+
+    <resultMap id="result" type="org.lzf.bean.Books">
+        <id column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="author" property="author"/>
+        <result column="classifying" property="classifying"/>
+        <result column="price" property="price"/>
+        <result column="size" property="size"/>
+        <result column="part" property="part"/>
+    </resultMap>
+
+    <select id="select" parameterType="java.lang.String" resultMap="result">
+        select b.book_id, b.book_name, b.author, b.classifying, b.price, b.size, count(b2.borrows_book_name) as part
+        from books b
+                 left join borrows b2 on b.book_id = b2.borrows_book_id
+        where b.book_name like '%' #{bookName} '%';
+
+    </select>
+
+</mapper>
