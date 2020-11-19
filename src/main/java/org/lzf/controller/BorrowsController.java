@@ -38,6 +38,11 @@ public class BorrowsController {
         return borrowsService.printBorrows();
     }
 
+    @RequestMapping("/printReturn")
+    public @ResponseBody List<Borrows> printReturn() {
+        return borrowsService.printReturn();
+    }
+
     /**
      * 添加借阅的书籍
      * 返回boolean

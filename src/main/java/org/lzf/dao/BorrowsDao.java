@@ -25,10 +25,12 @@ public interface BorrowsDao {
 
     /**
      * 查询所有借阅
+     * @param b
+     * 判断是否以返回时间为空查询
      * @return
      * 返回
      */
-    List<Borrows> selectAll();
+    List<Borrows> selectByReturnTime(Boolean b);
 
     /**
      * 通过书名查询
@@ -58,4 +60,8 @@ public interface BorrowsDao {
      * 返回信息
      */
     int update(@Param("condition") Map<String,Object> condition, @Param("borrows") Borrows borrows);
+
+    void deleteByCondition(Borrows borrows);
+
+    int deleteByReturnTime(String returnTime);
 }

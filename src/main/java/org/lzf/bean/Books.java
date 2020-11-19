@@ -102,17 +102,4 @@ public class Books implements Serializable {
     public void setPart(int part) {
         this.part = part;
     }
-
-    @Override
-    public String toString() {
-        return "Books{" +
-                "bookId='" + bookId + '\'' +
-                ", bookName='" + bookName + '\'' +
-                ", author='" + author + '\'' +
-                ", classifying='" + classifying + '\'' +
-                ", price=" + price +
-                ", size=" + size +
-                ", part=" + part +
-                '}';
-    }
 }

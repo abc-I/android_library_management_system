@@ -6,7 +6,6 @@ import org.lzf.dao.BorrowsDao;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -16,14 +15,13 @@ import java.util.*;
 @Transactional(rollbackFor = Exception.class)
 public class BorrowsService {
     private final BorrowsDao borrowsDao;
-    private final SimpleDateFormat dateFormat;
+    private final Calendar calendar = Calendar.getInstance();
 
     /**
      * 初始化
      */
     public BorrowsService(BorrowsDao borrowsDao) {
         this.borrowsDao = borrowsDao;
-        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     /**
@@ -43,7 +41,11 @@ public class BorrowsService {
      * 返回查询结果
      */
     public List<Borrows> printBorrows() {
-        return borrowsDao.selectAll();
+        return borrowsDao.selectByReturnTime(true);
+    }
+
+    public List<Borrows> printReturn() {
+        return borrowsDao.selectByReturnTime(false);
     }
 
     /**
@@ -55,8 +57,16 @@ public class BorrowsService {
      */
     public boolean addBorrows(Borrows borrows) {
         Books books = borrowsDao.selectByName(borrows.getBorrowsBookName());
+        List<Borrows> list = borrowsDao.selectById(books.getBookId());
+        if (list.size() == books.getSize()) {
+            return false;
+        }
         borrows.setBorrowsBookId(books.getBookId());
-        borrows.setBorrowsTime(dateFormat.format(new Date()));
+        borrows.setBorrowsTime(
+                calendar.get(Calendar.YEAR) + "-"
+                        + (calendar.get(Calendar.MONTH) + 1) + "-"
+                        + calendar.get(Calendar.DATE)
+        );
         int x = borrowsDao.insert(borrows);
         return x == -2147482646;
     }
@@ -72,8 +82,17 @@ public class BorrowsService {
         Map<String, Object> condition = new HashMap<>();
         condition.put("borrows_book_name",borrows.getBorrowsBookName());
         condition.put("borrows_stu_id",borrows.getBorrowsStuId());
-        borrows.setReturnTime(dateFormat.format(new Date()));
+        borrows.setReturnTime(
+                calendar.get(Calendar.YEAR) + "-"
+                        + (calendar.get(Calendar.MONTH) + 1) + "-"
+                        + calendar.get(Calendar.DATE)
+        );
+        int y = borrowsDao.deleteByReturnTime(
+                (calendar.get(Calendar.YEAR) - 1) + "-"
+                    + (calendar.get(Calendar.MONTH) + 1) + "-"
+                    + calendar.get(Calendar.DATE)
+        );
         int x = borrowsDao.update(condition,borrows);
-        return x == -2147482646;
+        return x == -2147482646 && y == -2147482646;
     }
 }

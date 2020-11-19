@@ -21,7 +21,7 @@
           and return_time IS NULL;
     </select>
 
-    <select id="selectAll" resultMap="result">
+    <select id="selectByReturnTime" resultMap="result">
         select b.borrows_book_id,
                b.borrows_stu_id,
                b.borrows_book_name,
@@ -31,7 +31,14 @@
                s.stu_name
         from borrows b
                  left join students s on b.borrows_stu_id = s.stu_id
-        where b.return_time IS NULL;
+        <where>
+            <if test="b">
+                return_time is null
+            </if>
+            <if test="!b">
+                return_time is not null
+            </if>
+        </where>
     </select>
 
     <select id="selectByName" resultType="org.lzf.bean.Books">
@@ -45,7 +52,7 @@
         values (#{borrowsBookId}, #{borrowsBookName}, #{borrowsStuId}, #{borrowsTime}, #{returnTime}, #{damage});
     </insert>
 
-    <update id="update" parameterType="org.lzf.bean.Borrows">
+    <update id="update" parameterType="map">
         update borrows
         <set>
             <if test="borrows.borrowsBookId != null">
@@ -73,5 +80,17 @@
             </foreach>
         </where>
     </update>
+
+    <delete id="deleteByCondition" parameterType="org.lzf.bean.Borrows">
+        delete from borrows
+        <where>
+            <if test="borrowsBookId != null">
+                borrows_book_id = #{borrowsBookId}
+            </if>
+            <if test="borrowsBookName != null">
+                and borrows_book_name = #{borrowsBookName}
+            </if>
+        </where>
+    </delete>
 
 </mapper>

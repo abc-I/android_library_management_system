@@ -28,4 +28,24 @@ public class BookController {
     public @ResponseBody List<Books> searchBookController(String bookName){
         return bookService.searchBookService(bookName);
     }
+
+    @RequestMapping("/bookManagement")
+    public @ResponseBody List<Books> bookManagement() {
+        return bookService.bookManagement();
+    }
+
+    @RequestMapping("/addBook")
+    public @ResponseBody boolean addBook(Books books){
+        return bookService.addBook(books);
+    }
+
+    @RequestMapping("/deleteBook")
+    public @ResponseBody boolean deleteBook(Books books) {
+        return bookService.deleteBook(books);
+    }
+
+    @RequestMapping("/updateBook")
+    public @ResponseBody boolean updateBook(String oldId, Books books) {
+        return bookService.updateBook(oldId, books);
+    }
 }

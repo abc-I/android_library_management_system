@@ -45,7 +45,7 @@
         values (#{borrowsBookId}, #{borrowsBookName}, #{borrowsStuId}, #{borrowsTime}, #{returnTime}, #{damage});
     </insert>
 
-    <update id="update" parameterType="org.lzf.bean.Borrows">
+    <update id="update" parameterType="map">
         update borrows
         <set>
             <if test="borrows.borrowsBookId != null">
@@ -73,5 +73,17 @@
             </foreach>
         </where>
     </update>
+
+    <delete id="deleteByCondition" parameterType="org.lzf.bean.Borrows">
+        delete from borrows
+        <where>
+            <if test="borrowsBookId != null">
+                borrows_book_id = #{borrowsBookId}
+            </if>
+            <if test="borrowsBookName != null">
+                and borrows_book_name = #{borrowsBookName}
+            </if>
+        </where>
+    </delete>
 
 </mapper>

@@ -25,6 +25,7 @@ public class LoginController {
      */
     @RequestMapping("/login")
     public @ResponseBody boolean login(Account account){
+        System.out.println(account);
         return loginService.login(account);
     }
 }

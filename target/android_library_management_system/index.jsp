@@ -18,5 +18,6 @@
 <a href="homepage?stuId=2019002109">homepage</a>
 <a href="login?account=2019002109&password=123456&power=学生">login</a>
 <a href="addReturn?borrowsStuId=2019002109&borrowsBookName=Java核心技术">addReturn</a>
+<a href="deleteBook?bookId=125">deleteBook</a>
 </body>
 </html>
