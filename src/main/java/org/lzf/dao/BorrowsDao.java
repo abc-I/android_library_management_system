@@ -1,7 +1,6 @@
 package org.lzf.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.lzf.bean.Books;
 import org.lzf.bean.Borrows;
 import org.springframework.stereotype.Repository;
 
@@ -33,15 +32,6 @@ public interface BorrowsDao {
     List<Borrows> selectByReturnTime(Boolean b);
 
     /**
-     * 通过书名查询
-     * @param borrowsBookName
-     * 传入的书名
-     * @return
-     * 返回查询结果
-     */
-    Books selectByName(String borrowsBookName);
-
-    /**
      * 插入信息
      * @param borrows
      * 传入参数
@@ -61,7 +51,16 @@ public interface BorrowsDao {
      */
     int update(@Param("condition") Map<String,Object> condition, @Param("borrows") Borrows borrows);
 
+    /**
+     * 根据传入的条件删除
+     * @param borrows 传入删除的条件
+     */
     void deleteByCondition(Borrows borrows);
 
+    /**
+     * 通过归还时间删除
+     * @param returnTime 传入归还时间
+     * @return 返回是否成功
+     */
     int deleteByReturnTime(String returnTime);
 }

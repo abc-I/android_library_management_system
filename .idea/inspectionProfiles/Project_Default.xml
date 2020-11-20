@@ -30,7 +30,7 @@
       <option name="IGNORE_JAVADOC_PERIOD" value="true" />
       <option name="IGNORE_DUPLICATED_THROWS" value="false" />
       <option name="IGNORE_POINT_TO_ITSELF" value="false" />
-      <option name="myAdditionalJavadocTags" value="date,account,password,power,bookId,bookName,author,classifying,price,size,part,borrowsBookId,borrowsStuId,borrowsBookName,borrowsTime,returnTime,damage,student,repId,message,stuId,stuName,gender,clazz,mjor,college,stuTelephone" />
+      <option name="myAdditionalJavadocTags" value="date,account,password,power,bookId,bookName,author,classifying,price,size,part,borrowsBookId,borrowsStuId,borrowsBookName,borrowsTime,returnTime,damage,student,repId,message,stuId,stuName,gender,clazz,mjor,college,stuTelephone,Books" />
     </inspection_tool>
   </profile>
 </component>

@@ -22,28 +22,50 @@ public class BookController {
     }
 
     /**
-     * 查询书籍，返回List<Book>
+     * 查询书籍
+     * 传入书名，或部分书名
+     * 返回 List<Book>
      */
     @RequestMapping("/searchBook")
     public @ResponseBody List<Books> searchBookController(String bookName){
         return bookService.searchBookService(bookName);
     }
 
+    /**
+     * 书籍管理界面，显示书籍
+     * 不用传数据
+     * 返回 List<Books>
+     */
     @RequestMapping("/bookManagement")
     public @ResponseBody List<Books> bookManagement() {
         return bookService.bookManagement();
     }
 
+    /**
+     * 添加书籍信息
+     * 传入书籍表信息
+     * 返回 boolean
+     */
     @RequestMapping("/addBook")
     public @ResponseBody boolean addBook(Books books){
         return bookService.addBook(books);
     }
 
+    /**
+     * 删除书籍
+     * 传入书籍名或书籍id
+     * 返回 boolean
+     */
     @RequestMapping("/deleteBook")
     public @ResponseBody boolean deleteBook(Books books) {
         return bookService.deleteBook(books);
     }
 
+    /**
+     * 修改书籍信息
+     * 传入旧的id，修改的书籍信息
+     * 返回 boolean
+     */
     @RequestMapping("/updateBook")
     public @ResponseBody boolean updateBook(String oldId, Books books) {
         return bookService.updateBook(oldId, books);

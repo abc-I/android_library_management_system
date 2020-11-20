@@ -41,12 +41,6 @@
         </where>
     </select>
 
-    <select id="selectByName" resultType="org.lzf.bean.Books">
-        select *
-        from books
-        where book_name = #{borrowsBookName};
-    </select>
-
     <insert id="insert" parameterType="org.lzf.bean.Borrows">
         insert into borrows(borrows_book_id, borrows_book_name, borrows_stu_id, borrows_time, return_time, damage)
         values (#{borrowsBookId}, #{borrowsBookName}, #{borrowsStuId}, #{borrowsTime}, #{returnTime}, #{damage});
@@ -91,6 +85,10 @@
                 and borrows_book_name = #{borrowsBookName}
             </if>
         </where>
+    </delete>
+
+    <delete id="deleteByReturnTime" parameterType="java.lang.String">
+        delete from borrows where return_time &lt;= #{returnTime}
     </delete>
 
 </mapper>

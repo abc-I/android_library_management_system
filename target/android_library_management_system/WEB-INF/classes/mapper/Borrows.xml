@@ -21,7 +21,7 @@
           and return_time IS NULL;
     </select>
 
-    <select id="selectAll" resultMap="result">
+    <select id="selectByReturnTime" resultMap="result">
         select b.borrows_book_id,
                b.borrows_stu_id,
                b.borrows_book_name,
@@ -31,13 +31,14 @@
                s.stu_name
         from borrows b
                  left join students s on b.borrows_stu_id = s.stu_id
-        where b.return_time IS NULL;
-    </select>
-
-    <select id="selectByName" resultType="org.lzf.bean.Books">
-        select *
-        from books
-        where book_name = #{borrowsBookName};
+        <where>
+            <if test="b">
+                return_time is null
+            </if>
+            <if test="!b">
+                return_time is not null
+            </if>
+        </where>
     </select>
 
     <insert id="insert" parameterType="org.lzf.bean.Borrows">
@@ -78,12 +79,16 @@
         delete from borrows
         <where>
             <if test="borrowsBookId != null">
-                borrows_book_id=#{borrowsBookId}
+                borrows_book_id = #{borrowsBookId}
             </if>
             <if test="borrowsBookName != null">
-                and borrows_book_name=#{borrowsBookName}
+                and borrows_book_name = #{borrowsBookName}
             </if>
         </where>
+    </delete>
+
+    <delete id="deleteByReturnTime" parameterType="java.lang.String">
+        delete from borrows where return_time &lt;= #{returnTime}
     </delete>
 
 </mapper>

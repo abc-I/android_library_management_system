@@ -22,7 +22,8 @@ public class BorrowsController {
 
     /**
      * 查询学生借阅的书籍
-     * 返回List<Borrows>
+     * 传入学生id
+     * 返回 List<Borrows>
      */
     @RequestMapping("/searchBorrows")
     public @ResponseBody List<Borrows> searchBorrows(String stuId) {
@@ -31,13 +32,19 @@ public class BorrowsController {
 
     /**
      * 查询所有借阅的书籍
-     * 返回List<Borrows>
+     * 不用传入数据
+     * 返回 List<Borrows>
      */
     @RequestMapping("/borrowsManagement")
     public @ResponseBody List<Borrows> printBorrows() {
         return borrowsService.printBorrows();
     }
 
+    /**
+     * 查询归还记录
+     * 不用传数据
+     * 返回 List<Borrows>
+     */
     @RequestMapping("/printReturn")
     public @ResponseBody List<Borrows> printReturn() {
         return borrowsService.printReturn();
@@ -45,7 +52,8 @@ public class BorrowsController {
 
     /**
      * 添加借阅的书籍
-     * 返回boolean
+     * 传入借阅书籍信息
+     * 返回 boolean
      */
     @RequestMapping("/addBorrows")
     public @ResponseBody boolean addBorrows(Borrows borrows) {
@@ -54,7 +62,8 @@ public class BorrowsController {
 
     /**
      * 添加归还的书籍
-     * 返回boolean
+     * 传入归还的书籍信息
+     * 返回 boolean
      */
     @RequestMapping("/addReturn")
     public @ResponseBody boolean addReturn(Borrows borrows) {

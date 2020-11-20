@@ -2,6 +2,7 @@ package org.lzf.service;
 
 import org.lzf.bean.Books;
 import org.lzf.bean.Borrows;
+import org.lzf.dao.BooksDao;
 import org.lzf.dao.BorrowsDao;
 
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ import java.util.*;
 public class BorrowsService {
     private final BorrowsDao borrowsDao;
     private final Calendar calendar = Calendar.getInstance();
+    private final BooksDao booksDao;
 
     /**
      * 初始化
      */
-    public BorrowsService(BorrowsDao borrowsDao) {
+    public BorrowsService(BorrowsDao borrowsDao,BooksDao booksDao) {
+        this.booksDao = booksDao;
         this.borrowsDao = borrowsDao;
     }
 
@@ -44,6 +47,11 @@ public class BorrowsService {
         return borrowsDao.selectByReturnTime(true);
     }
 
+    /**
+     * 查询归还记录界面，显示所有借阅的书籍
+     * 不用传入数据
+     * @return 返回 List<Borrows>
+     */
     public List<Borrows> printReturn() {
         return borrowsDao.selectByReturnTime(false);
     }
@@ -51,22 +59,22 @@ public class BorrowsService {
     /**
      * 添加借阅书籍
      * @param borrows
-     * 传入借阅书籍的信息
+     * 传入借阅书籍id、借阅学生的id
      * @return
      * 返回是否成功
      */
     public boolean addBorrows(Borrows borrows) {
-        Books books = borrowsDao.selectByName(borrows.getBorrowsBookName());
-        List<Borrows> list = borrowsDao.selectById(books.getBookId());
-        if (list.size() == books.getSize()) {
-            return false;
-        }
-        borrows.setBorrowsBookId(books.getBookId());
+        // 按照要借阅的书籍id查询书籍
+        Books books = booksDao.selectById(borrows.getBorrowsBookId());
+        // 封装获取到的书籍名
+        borrows.setBorrowsBookName(books.getBookName());
+        // 封装当前年月日
         borrows.setBorrowsTime(
                 calendar.get(Calendar.YEAR) + "-"
                         + (calendar.get(Calendar.MONTH) + 1) + "-"
                         + calendar.get(Calendar.DATE)
         );
+        // 插入借阅书籍信息
         int x = borrowsDao.insert(borrows);
         return x == -2147482646;
     }
@@ -79,20 +87,25 @@ public class BorrowsService {
      * 返回是否成功
      */
     public boolean addReturn(Borrows borrows) {
-        Map<String, Object> condition = new HashMap<>();
-        condition.put("borrows_book_name",borrows.getBorrowsBookName());
+        // 封装删除条件
+        Map<String, Object> condition = new HashMap<>(2);
+        condition.put("borrows_book_id",borrows.getBorrowsBookId());
         condition.put("borrows_stu_id",borrows.getBorrowsStuId());
+        // 封装还书时间
         borrows.setReturnTime(
                 calendar.get(Calendar.YEAR) + "-"
                         + (calendar.get(Calendar.MONTH) + 1) + "-"
                         + calendar.get(Calendar.DATE)
         );
-        int y = borrowsDao.deleteByReturnTime(
+
+        // 删除一年前的借阅记录
+        borrowsDao.deleteByReturnTime(
                 (calendar.get(Calendar.YEAR) - 1) + "-"
                     + (calendar.get(Calendar.MONTH) + 1) + "-"
                     + calendar.get(Calendar.DATE)
         );
+        // 添加还书时间
         int x = borrowsDao.update(condition,borrows);
-        return x == -2147482646 && y == -2147482646;
+        return x == -2147482646;
     }
 }
