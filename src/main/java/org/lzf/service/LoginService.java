@@ -30,7 +30,9 @@ public class LoginService {
      * 返回是否通过验证
      */
     public boolean login(Account account) {
+        // 通过账号查询账号信息
         Account acc = loginDao.select(account.getAccount());
+        // 验证密码和权限
         return acc.getPassword().equals(account.getPassword())
                 && acc.getPower().equals(account.getPower());
     }

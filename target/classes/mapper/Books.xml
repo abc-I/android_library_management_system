@@ -20,8 +20,14 @@
         group by b.book_name
     </select>
 
+    <select id="selectById" parameterType="java.lang.String" resultType="org.lzf.bean.Books">
+        select *
+        from books
+        where book_id = #{bookId}
+    </select>
+
     <select id="selectAll" parameterType="java.lang.String" resultMap="result">
-        select b.book_id, b.book_name, b.author, b.classifying, b.price, b.size, count(b2.borrows_book_name) as part
+        select b.book_id, b.book_name, b.author, b.classifying, b.price, count(b.book_name) as size, count(b2.borrows_book_name) as part
         from books b
                  left join borrows b2 on b.book_id = b2.borrows_book_id and return_time IS NULL
     </select>
@@ -43,11 +49,26 @@
         </where>
     </delete>
 
-<!--    <update id="updateById" parameterType="map">-->
-<!--        update books-->
-<!--        <set>-->
-<!--            <if test=""-->
-<!--        </set>-->
-<!--    </update>-->
+    <update id="updateById" parameterType="map">
+        update books
+        <set>
+            <if test="books.bookId != null">
+                book_id = #{books.bookId},
+            </if>
+            <if test="books.bookName != null">
+                book_name = #{books.bookName},
+            </if>
+            <if test="books.author != null">
+                author = #{books.author},
+            </if>
+            <if test="books.classifying != null">
+                classifying = #{books.classifying},
+            </if>
+            <if test="books.price != null">
+                price = #{books.price},
+            </if>
+        </set>
+        where book_id=#{oldId}
+    </update>
 
 </mapper>

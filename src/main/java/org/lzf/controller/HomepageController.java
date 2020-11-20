@@ -21,6 +21,7 @@ public class HomepageController {
 
     /**
      * 查询学生信息
+     * 传入学生id
      * 返回Student对象
      */
     @RequestMapping("/homepage")
