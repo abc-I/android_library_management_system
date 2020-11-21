@@ -3,8 +3,7 @@ package org.lzf.controller;
 import org.lzf.bean.Account;
 import org.lzf.service.LoginService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 登录控制器
@@ -23,9 +22,8 @@ public class LoginController {
      * 登录验证
      * 返回boolean
      */
-    @RequestMapping("/login")
-    public @ResponseBody boolean login(Account account){
-        System.out.println(account);
+    @PostMapping("/login")
+    public @ResponseBody boolean login(@RequestBody Account account){
         return loginService.login(account);
     }
 }
