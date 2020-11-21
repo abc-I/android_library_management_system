@@ -59,9 +59,4 @@
         </tx:attributes>
     </tx:advice>
 
-    <bean class="org.lzf.bean.Books" id="books"/>
-    <bean class="org.lzf.util.BeanFactory" id="beanFactory">
-        <property name="books" ref="books"/>
-    </bean>
-
 </beans>

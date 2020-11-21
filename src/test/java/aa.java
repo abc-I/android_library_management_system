@@ -1,14 +1,27 @@
-import com.mysql.cj.xdevapi.JsonArray;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Scanner;
 
 public class aa {
     @Test
     public void test() {
-        Calendar calendar = Calendar.getInstance();
-        System.out.println((calendar.get(Calendar.YEAR) - 1)+"-"+(calendar.get(Calendar.MONTH) + 1)+"-"+calendar.get(Calendar.DATE));
+        Scanner sc=new Scanner(System.in);
+        int x = 50;
+        int y = 20;
+        int z;
+        int a, b;
+        if (x > y) {
+            a = x;
+            b = y;
+        } else {
+            a = y;
+            b = x;
+        }
+        do {
+            z = a % b;
+            a = b;
+            b = z;
+        } while (b != 0);
+        System.out.println(a);
     }
 }
