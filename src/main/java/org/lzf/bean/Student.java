@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 @Service
 public class Student implements Serializable {
+    private String[] personal_setting = {"姓名","id", "性别", "学院", "专业", "班级", "电话", "退出登录"};
     /**
      * @stuId
      * 学生id
