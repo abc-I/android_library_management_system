@@ -20,7 +20,6 @@
     <a href="addReturn?borrowsStuId=2019002109&borrowsBookName=Java核心技术">addReturn</a>
     <a href="deleteBook?bookId=125">deleteBook</a>
     <a href="updateBook?oldId=124&bookId=111">updateBook</a>
-    <a href="test1">test1</a>
-    <a href="test2">test2</a>
+    <a href="test">test</a>
 </body>
 </html>

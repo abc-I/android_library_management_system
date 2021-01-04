@@ -1,8 +1,10 @@
 package org.lzf.controller;
 
 import org.lzf.bean.Borrows;
+import org.lzf.bean.Student;
 import org.lzf.service.BorrowsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,8 +28,9 @@ public class BorrowsController {
      * 返回 List<Borrows>
      */
     @RequestMapping("/searchBorrows")
-    public @ResponseBody List<Borrows> searchBorrows(String stuId) {
-        return borrowsService.searchBorrows(stuId);
+    public @ResponseBody List<Borrows> searchBorrows(Student student) {
+        System.out.println(student.getStuId());
+        return borrowsService.searchBorrows(student.getStuId());
     }
 
     /**
